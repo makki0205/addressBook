@@ -48,14 +48,17 @@ int select(int max){
 	int val=0;
 	int key=0;
 	max -= 1;
+	select_print(val,max);
 	while (1) {
 		key=getch();
 		switch (key) {
 		case 'w':
 			(val!=0)?val--:val=max;
+			select_print(val,max);
 			break;
 		case 's':
 			(val!=max)?val++:val=0;
+			select_print(val,max);
 			break;
 		case (10):
 			return val;
@@ -72,10 +75,11 @@ int select(int max){
 /* -------------------------------------------------------------------------- */
 void select_print(int cursor,int max){
 	int index = 0 ;
-	for ( index = 0; index < max; index++) {
-		(index==cursor)
+	for ( index = 0; index <= max; index++) {
+		locate(index+2,0);
+		(index==cursor)?printf("→"):printf("　");
 	}
-
+	locate(max+3,0);
 }
 /* -------------------------------------------------------------------------- */
 /* 関数名		: 															   */
@@ -85,7 +89,14 @@ void select_print(int cursor,int max){
 /* 戻り値		: 				   : 				: 						   */
 /* 作成日		: 															   */
 /* -------------------------------------------------------------------------- */
-int menu_print(const char* item);
+int menu_print(const char* item){
+	/* 引数チェック---------------------------------------------------------- */
+if ( item == NULL){
+	return ERR;
+}
+	printf("　%s\n",item);
+	return OK;
+}
 /* -------------------------------------------------------------------------- */
 /* 関数名		: 															   */
 /* 機能名		: 															   */
@@ -94,7 +105,22 @@ int menu_print(const char* item);
 /* 戻り値		: 				   : 				: 						   */
 /* 作成日		: 															   */
 /* -------------------------------------------------------------------------- */
-int menu(void/*struct BOOK* data*/);
+int menu(struct BOOK* data){
+	int selectNo=0;
+	cls();
+	printf("--アドレス帳--\n");
+	menu_print("アドレス帳新規追加");
+	menu_print("アドレス帳参照");
+	menu_print("アドレス帳修正");
+	menu_print("アドレス帳削除");
+	menu_print("アドレス帳並び替え");
+	menu_print("アプリケーション終了");
+	selectNo=select(6);
+	switch (selectNo) {
+		// case (0):adddata();
+	}
+	return 0;
+}
 /* -------------------------------------------------------------------------- */
 /* 				Copyright HAL College of Technology & Design				  */
 /* -------------------------------------------------------------------------- */

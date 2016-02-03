@@ -35,8 +35,7 @@
 int main(int argc, char const *argv[]) {
 	int i;
 	struct BOOK data;
-	i=select(5);
-	printf("%d\n",i );
+	i = menu(&data);
 	return 0;
 }
 /* -------------------------------------------------------------------------- */
