@@ -34,8 +34,11 @@
 /* -------------------------------------------------------------------------- */
 int main(int argc, char const *argv[]) {
 	int i;
-	struct BOOK data;
-	i = menu(&data);
+	struct STATUS data;
+	memset(&data,0,sizeof(data));
+	statusflash(&data);
+	printf("%x\n",data.flg[0] );
+	// i = menu(&data);
 	return 0;
 }
 /* -------------------------------------------------------------------------- */
