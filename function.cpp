@@ -155,5 +155,40 @@ if (data == NULL){
 	return 0;
 }
 /* -------------------------------------------------------------------------- */
+/* 関数名		: 															   */
+/* 機能名		: 															   */
+/* 機能概要	   : 															  */
+/* 引数		 : 					: 				 : 							*/
+/* 戻り値		: 				   : 				: 						   */
+/* 作成日		: 															   */
+/* -------------------------------------------------------------------------- */
+int bookread(struct BOOK* data ,int index){
+	int size;
+	FILE* fp;
+	size=sizeof(struct BOOK);
+	fp=fopen("addressbook.dat","r");
+	fread(data,size,1,fp);
+	fclose(fp);
+	return OK;
+}
+/* -------------------------------------------------------------------------- */
+/* 関数名		: 															   */
+/* 機能名		: 															   */
+/* 機能概要	   : 															  */
+/* 引数		 : 					: 				 : 							*/
+/* 戻り値		: 				   : 				: 						   */
+/* 作成日		: 															   */
+/* -------------------------------------------------------------------------- */
+int bookwrite(struct BOOK* data ,int index ){
+	int size = 0;
+	FILE* fp = 0;
+	size=sizeof( struct BOOK );
+	fp = fopen ( "addressbook.dat" , "w" );
+	fseek(fp,size*index,SEEK_SET);
+	fwrite(data,size, 1 , fp );
+	fclose(fp);
+	return OK;
+}
+/* -------------------------------------------------------------------------- */
 /* 				Copyright HAL College of Technology & Design				  */
 /* -------------------------------------------------------------------------- */
