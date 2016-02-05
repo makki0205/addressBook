@@ -55,18 +55,6 @@ int statusread(struct STATUS* status){
 }
 /* -------------------------------------------------------------------------- */
 /* 関数名		: 															   */
-/* 機能名	   	: 															   */
-/* 機能概要	   : 															  */
-/* 引数        : 					 : 				 : 							*/
-/* 戻り値		: 					: 				: 						   */
-/* 作成日		: 															   */
-/* -------------------------------------------------------------------------- */
-int menu(void){
-	int a=40;
-	return a;
-}
-/* -------------------------------------------------------------------------- */
-/* 関数名		: 															   */
 /* 機能名		: 															   */
 /* 機能概要	   : 															  */
 /* 引数		 : 					: 				 : 							*/
@@ -165,8 +153,16 @@ if (data == NULL){
 int bookread(struct BOOK* data ,int index){
 	int size;
 	FILE* fp;
+	/* 引数チェック---------------------------------------------------------- */
+if ( data== NULL){
+	return ERR;
+}
 	size=sizeof(struct BOOK);
 	fp=fopen("addressbook.dat","r");
+	/* ファイルポインタcheck------------------------------------------------- */
+	if (fp==0) {
+		return ERR;
+	}
 	fread(data,size,1,fp);
 	fclose(fp);
 	return OK;
@@ -182,8 +178,16 @@ int bookread(struct BOOK* data ,int index){
 int bookwrite(struct BOOK* data ,int index ){
 	int size = 0;
 	FILE* fp = 0;
+	/* 引数チェック---------------------------------------------------------- */
+	if ( data== NULL){
+		return ERR;
+	}
 	size=sizeof( struct BOOK );
 	fp = fopen ( "addressbook.dat" , "w" );
+	/* ファイルポインタcheck------------------------------------------------- */
+	if (fp==0) {
+		return ERR;
+	}
 	fseek(fp,size*index,SEEK_SET);
 	fwrite(data,size, 1 , fp );
 	fclose(fp);

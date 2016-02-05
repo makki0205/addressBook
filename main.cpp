@@ -35,8 +35,8 @@
 int main(int argc, char const *argv[]) {
 	int i;
 	struct BOOK data;
-	memset(&data,0,sizeof(data));
-	bookwrite(&data,4);
+    memset(&data,0,sizeof(data));               /* 構造体初期化               */
+    bookwrite(&data,4);
 
 	// i = menu(&data);
 	return 0;
