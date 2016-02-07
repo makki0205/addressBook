@@ -34,11 +34,72 @@
 /* -------------------------------------------------------------------------- */
 int adddata(void){
 	struct BOOK data;
+	struct STATUS sta;
+	memset(&data,0,sizeof(sta));
     memset(&data,0,sizeof(data));               /* 構造体初期化               */
+	statusread(&sta);
+	bookread(&data,sta.size);
+	addname(&data);
+	addkana(&data);
+	addpost(&data);
+	addaddress(&data);
+	addnumber(&data);
+	bookwrite(&data,sta.size);
+	sta.flg[sta.size]=1;
+	sta.size++;
+	statusflash(&sta);
 
 	return 0;
 }
-int addname(struct BOOK* data);
+/* -------------------------------------------------------------------------- */
+/* 関数名		: 															   */
+/* 機能名		: 															   */
+/* 機能概要	   : 															  */
+/* 引数		 : 					: 				 :							*/
+/* 戻り値		: 				   : 				: 						   */
+/* 作成日		: 															   */
+/* -------------------------------------------------------------------------- */
+int record_print(struct BOOK* data){
+	printf("名前     : %s\n",&data->name[0]);
+	printf("カナ     : %s\n",&data->kana[0]);
+	printf("郵便番号 : ");
+	post_print(&data->post[0]);
+	printf("\n住所     : %s\n",&data->address[0]);
+	printf("電話番号 : %s\n",&data->number[0]);
+	return OK;
+}
+/* -------------------------------------------------------------------------- */
+/* 関数名		: addname													   */
+/* 機能名		: 名前を追加													  */
+/* 機能概要	   : を追加しcheckを行う　										  */
+/* 引数		 : structBOOK*		: data			 : 一レコード分の情報   	   */
+/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 作成日		: 葛巻大樹							2016/02/05				   */
+/* -------------------------------------------------------------------------- */
+int addname(struct BOOK* data){
+	char baf[256];
+	int size=0;
+	/* 引数チェック---------------------------------------------------------- */
+	if ( data== NULL){
+		return ERR;
+	}
+	cls();
+	while (1) {
+		locate(0,0);
+		record_print(data);
+		locate(0,12);
+		gets(&baf[0]) ;
+		size = strlen(&baf[0]);
+		if (size<30) {
+			break;
+		}
+		cls();
+		locate(7,0);
+		printf("30バイトで入力してください");
+	}
+	strcpy(&data->name[0],&baf[0]);
+	return OK;
+}
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addkana													   */
 /* 機能名		: カナを追加する  											    */
@@ -47,7 +108,48 @@ int addname(struct BOOK* data);
 /* 戻り値		: int			   : OK				: 成功　　				   */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
-int addkana(struct BOOK* data);
+int addkana(struct BOOK* data){
+	char baf[256];
+	int size  = 0;
+	int check = 0;
+	int index = 0;
+	/* 引数チェック---------------------------------------------------------- */
+	if ( data== NULL){
+		return ERR;
+	}
+	cls();
+	while (1) {
+		locate(0,0);
+		record_print(data);
+		locate(2,12);
+		gets(&baf[0]) ;
+		size = strlen(&baf[0]);
+		if (size<30) {
+			// for (index = 0; index < size; index++) {
+			// 	if(baf[index]>='ｦ'&&baf[index]<'ﾟ'||
+			// 	baf[index]>='0'&&baf[index]<='9'||
+			// 	baf[index]>='a'&&baf[index]<='z'){
+			// 		check++;
+			// 	}else{
+			// 		break;
+			// 	}
+			// }
+			// if (size==check) {
+				break;
+			// }else{
+			// 	cls();
+			// 	locate(7,0);
+			// 	printf("使えない文字が含まれています");
+			// }
+		}else{
+			cls();
+			locate(7,0);
+			printf("30バイトで入力してください");
+		}
+	}
+	strcpy(&data->kana[0],&baf[0]);
+	return OK;
+}
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addpost													   */
 /* 機能名		: 郵便番号を追加　											   */
@@ -56,7 +158,31 @@ int addkana(struct BOOK* data);
 /* 戻り値		: int			   : OK				: 成功　　				   */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
-int addpost(struct BOOK* data);
+int addpost(struct BOOK* data){
+	int key=0;
+	char baf[8];
+	memset(&baf[0],0,sizeof(baf));
+	int index=0;
+	cls();
+	record_print(data);
+	while (1) {
+		key=getch();
+		if (key >= 48 && key <=57&&index<7) {
+			baf[index]=key;
+			post_print(&baf[0]);
+			index++;
+		}
+		if(key==10&&index==7) break;
+		if (key==127&&index!=0) {
+			index--;
+			baf[index]='\0';
+			post_print(&baf[0]);
+
+		}
+	}
+	strcpy(&data->post[0],&baf[0]);
+	return OK;
+}
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addaddress												   */
 /* 機能名		: 住所を追加													  */
@@ -65,7 +191,30 @@ int addpost(struct BOOK* data);
 /* 戻り値		: int			   : OK				: 成功　　				   */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
-int addaddress(struct BOOK* data);
+int addaddress(struct BOOK* data){
+	char baf[256];
+	int size=0;
+	/* 引数チェック---------------------------------------------------------- */
+	if ( data== NULL){
+		return ERR;
+	}
+	cls();
+	while (1) {
+		locate(0,0);
+		record_print(data);
+		locate(4,12);
+		gets(&baf[0]) ;
+		size = strlen(&baf[0]);
+		if (size<80) {
+			break;
+		}
+		cls();
+		locate(7,0);
+		printf("80バイトで入力してください");
+	}
+	strcpy(&data->address[0],&baf[0]);
+	return OK;
+}
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addnumber													   */
 /* 機能名		: 電話番号を追加											    */
@@ -74,7 +223,30 @@ int addaddress(struct BOOK* data);
 /* 戻り値		: int			   : OK				: 成功　　				   */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
-int addnumber(struct BOOK* data);
+int addnumber(struct BOOK* data){
+	char baf[256];
+	int size=0;
+	/* 引数チェック---------------------------------------------------------- */
+	if ( data== NULL){
+		return ERR;
+	}
+	cls();
+	while (1) {
+		locate(0,0);
+		record_print(data);
+		locate(5,12);
+		gets(&baf[0]) ;
+		size = strlen(&baf[0]);
+		if (size<18) {
+			break;
+		}
+		cls();
+		locate(7,0);
+		printf("18バイトで入力してください");
+	}
+	strcpy(&data->number[0],&baf[0]);
+	return OK;
+}
 
 /* -------------------------------------------------------------------------- */
 /* 				Copyright HAL College of Technology & Design				  */

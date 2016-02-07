@@ -27,6 +27,29 @@
 /* 関数名		: 															   */
 /* 機能名		: 															   */
 /* 機能概要	   : 															  */
+/* 引数		 : 					: 				 :							*/
+/* 戻り値		: 				   : 				: 						   */
+/* 作成日		: 															   */
+/* -------------------------------------------------------------------------- */
+int systemset(void){
+	FILE* fp;
+	struct STATUS* sta;
+	memset( &sta , 0 , sizeof( sta ) );
+	fp = fopen ( "addressbook.dat" , "r" );
+	if (fp==NULL) {
+		system("touch addressbook.dat");
+		fp=fopen("./status.dat","w");
+		fwrite(&sta,sizeof(sta),1,fp);
+		fclose(fp);
+	}else{
+		fclose(fp);
+	}
+	return OK;
+}
+/* -------------------------------------------------------------------------- */
+/* 関数名		: 															   */
+/* 機能名		: 															   */
+/* 機能概要	   : 															  */
 /* 引数		 : 					: 				 : 							*/
 /* 戻り値		: 				   : 				: 						   */
 /* 作成日		: 															   */
@@ -112,6 +135,36 @@ if ( item == NULL){
 	return ERR;
 }
 	printf("　%s\n",item);
+	return OK;
+}
+/* -------------------------------------------------------------------------- */
+/* 関数名		: 															   */
+/* 機能名		: 															   */
+/* 機能概要	   : 															  */
+/* 引数		 : 					: 				 : 							*/
+/* 戻り値		: 				   : 				: 						   */
+/* 作成日		: 															   */
+/* -------------------------------------------------------------------------- */
+int post_print(char* post){
+	int index  = 0;
+	int barflg = 0;
+	int size   = 0;
+	size=strlen(post);
+	if (size>=3) {
+		barflg=1;
+	}
+	locate(3,12);
+	for ( index = 0; index < 3; index++) {
+		printf("%c",*post);
+		post++;
+	}
+	if (barflg==1) {
+		printf("-");
+	}
+	printf("%s",post);
+	for (index = size; index <= 7 ; index++) {
+		printf(" ");
+	}
 	return OK;
 }
 /* -------------------------------------------------------------------------- */
