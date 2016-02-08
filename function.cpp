@@ -35,12 +35,12 @@ int systemset ( void )
 {
     FILE          *fp;
     struct STATUS *sta;
-    memset( &sta, 0, sizeof(sta) );
+    memset( &sta, 0, sizeof( sta ) );
     fp = fopen( "addressbook.dat", "r" );
     if( fp == NULL ) {
         system( "touch addressbook.dat" );
         fp = fopen( "./status.dat", "w" );
-        fwrite( &sta, sizeof(sta), 1, fp );
+        fwrite( &sta, sizeof( sta ), 1, fp );
         fclose( fp );
     } else {
         fclose( fp );
@@ -103,14 +103,14 @@ int select ( int max )
         key = getch( );
         switch( key ) {
             case 'w':
-                (val != 0) ? val-- : val = max;
+                ( val != 0 ) ? val-- : val = max;
                 select_print( val, max );
                 break;
             case 's':
-                (val != max) ? val++ : val = 0;
+                ( val != max ) ? val++ : val = 0;
                 select_print( val, max );
                 break;
-            case (10):
+            case ( 10 ):
 
                 return val;
         }
@@ -130,7 +130,7 @@ void select_print ( int cursor, int max )
     int index = 0;
     for( index = 0 ; index <= max ; index++ ) {
         locate( index + 2, 0 );
-        (index == cursor) ? printf( "→" ) : printf( "　" );
+        ( index == cursor ) ? printf( "→" ) : printf( "　" );
     }
     locate( max + 3, 0 );
 }
@@ -212,7 +212,7 @@ int menu ( struct BOOK *data )
     menu_print( "アプリケーション終了" );
     selectNo = select( 6 );
     switch( selectNo ) {
-        case (0): adddata( );
+        case ( 0 ): adddata( );
     }
 
     return 0;
@@ -234,7 +234,7 @@ int bookread ( struct BOOK *data, int index )
     if( data == NULL ) {
         return ERR;
     }
-    size = sizeof(struct BOOK);
+    size = sizeof( struct BOOK );
     fp   = fopen( "addressbook.dat", "r" );
     /* ファイルポインタcheck------------------------------------------------- */
     if( fp == 0 ) {
@@ -262,7 +262,7 @@ int bookwrite ( struct BOOK *data, int index )
     if( data == NULL ) {
         return ERR;
     }
-    size = sizeof(struct BOOK);
+    size = sizeof( struct BOOK );
     fp   = fopen( "addressbook.dat", "w" );
     /* ファイルポインタcheck------------------------------------------------- */
     if( fp == 0 ) {

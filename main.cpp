@@ -36,8 +36,14 @@
 int main ( int argc, char const *argv[] )
 {
     struct BOOK data;
-    systemset( );
-    menu( &data );
+    char       hoge[256];
+    int         size = 0;
+    scanf( "%s", &hoge[0] );
+    size = strlen( &hoge[0] );
+    printf( "%d\n", size );
+
+    // systemset( );
+    // menu( &data );
 
     return 0;
 }

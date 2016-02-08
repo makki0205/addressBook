@@ -36,8 +36,8 @@ int adddata ( void )
 {
     struct BOOK   data;
     struct STATUS sta;
-    memset( &data, 0, sizeof(sta));
-    memset( &data, 0, sizeof(data));               /* 構造体初期化               */
+    memset( &data, 0, sizeof( sta ));
+    memset( &data, 0, sizeof( data ));          /* 構造体初期化               */
     statusread( &sta );
     bookread( &data, sta.size );
     addname( &data );
@@ -173,7 +173,7 @@ int addpost ( struct BOOK *data )
 {
     int  key = 0;
     char baf[8];
-    memset( &baf[0], 0, sizeof(baf));
+    memset( &baf[0], 0, sizeof( baf ));
     int index = 0;
     cls( );
     record_print( data );
