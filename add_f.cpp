@@ -39,7 +39,6 @@ int adddata ( void )
     memset( &data, 0, sizeof( sta ));
     memset( &data, 0, sizeof( data ));          /* 構造体初期化               */
     statusread( &sta );
-    bookread( &data, sta.size );
     addname( &data );
     addkana( &data );
     addpost( &data );

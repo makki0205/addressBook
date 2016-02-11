@@ -35,15 +35,12 @@
 
 int main ( int argc, char const *argv[] )
 {
+    SINT iCheck=0;
     struct BOOK data;
-    char       hoge[256];
-    int         size = 0;
-    scanf( "%s", &hoge[0] );
-    size = strlen( &hoge[0] );
-    printf( "%d\n", size );
-
-    // systemset( );
-    // menu( &data );
+    systemset( );
+    while (iCheck==0) {
+        iCheck=menu( &data );
+    }
 
     return 0;
 }

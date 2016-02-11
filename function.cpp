@@ -212,7 +212,9 @@ int menu ( struct BOOK *data )
     menu_print( "アプリケーション終了" );
     selectNo = select( 6 );
     switch( selectNo ) {
-        case ( 0 ): adddata( );
+        case ( 0 ): adddata( );break;
+        case (5): return 1;
+        
     }
 
     return 0;
