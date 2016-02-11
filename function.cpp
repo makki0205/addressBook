@@ -34,7 +34,7 @@
 int systemset ( void )
 {
     FILE          *fp;
-    struct STATUS *sta;
+    struct STATUS sta;
     memset( &sta, 0, sizeof( sta ) );
     fp = fopen( "addressbook.dat", "r" );
     if( fp == NULL ) {
@@ -57,11 +57,11 @@ int systemset ( void )
 /* 戻り値		:                  :                :                          */
 /* 作成日		:                                                              */
 /* -------------------------------------------------------------------------- */
-int statusflash ( struct STATUS *status )
+int statuswrite ( struct STATUS *status )
 {
     FILE *fp = 0;
     fp = fopen( "./status.dat", "w" );
-    fwrite( status, 11, 1, fp );
+    fwrite( status, sizeof( struct STATUS ), 1, fp );
     fclose( fp );
 
     return OK;
@@ -79,7 +79,7 @@ int statusread ( struct STATUS *status )
 {
     FILE *fp = 0;
     fp = fopen( "./status.dat", "r" );
-    fread( status, 11, 1, fp );
+    fread( status, sizeof( struct STATUS ), 1, fp );
     fclose( fp );
 
     return OK;
@@ -214,9 +214,10 @@ int menu ( struct BOOK *data )
     switch( selectNo ) {
         case ( 0 ): adddata( );break;
         case (5): return 1;
-        
-    }
 
+    }
+    printf("何か押してください\n" );
+    getch();
     return 0;
 }
 

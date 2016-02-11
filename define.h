@@ -29,10 +29,9 @@
         SCHR address[80];
         SCHR number[18];
     };
-
+    
     struct STATUS
     {
-        SCHR size;
         SCHR flg[10];
     };
 
@@ -120,9 +119,7 @@ int menu ( struct BOOK *data );
 /* 戻り値		:                  :                :                          */
 /* 作成日		:                                                              */
 /* -------------------------------------------------------------------------- */
-
-int statusflash ( struct STATUS *status );
-
+int statuswrite ( struct STATUS *status );
 /* -------------------------------------------------------------------------- */
 /* 関数名		:                                                              */
 /* 機能名		:                                                              */

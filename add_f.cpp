@@ -34,20 +34,31 @@
 /* -------------------------------------------------------------------------- */
 int adddata ( void )
 {
+    SINT writing_position = -1;
+    SINT index            = 0;
     struct BOOK   data;
     struct STATUS sta;
     memset( &data, 0, sizeof( sta ));
     memset( &data, 0, sizeof( data ));          /* 構造体初期化               */
+    for( index = 0 ; index < 10 ; index++ ) {
+        if( sta.flg[index] == 0 ) {
+            writing_position = index;
+            break;
+        }
+    }
+    if( writing_position == -1 ) {
+        printf( "これ以上追加できません。\n" );
+        return 0;
+    }
     statusread( &sta );
     addname( &data );
     addkana( &data );
     addpost( &data );
     addaddress( &data );
     addnumber( &data );
-    bookwrite( &data, sta.size );
-    sta.flg[sta.size] = 1;
-    sta.size++;
-    statusflash( &sta );
+    bookwrite( &data, writing_position );
+    sta.flg[writing_position] = 1;
+    statuswrite( &sta );
 
     return 0;
 }
