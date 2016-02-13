@@ -35,11 +35,11 @@
 
 int main ( int argc, char const *argv[] )
 {
-    SINT iCheck=0;
+    SINT        iCheck = 0;                     /*							  */
     struct BOOK data;
     systemset( );
-    while (iCheck==0) {
-        iCheck=menu( &data );
+    while( iCheck == 0 ) {
+        iCheck = menu( &data );
     }
 
     return 0;
