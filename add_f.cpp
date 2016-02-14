@@ -47,7 +47,7 @@ int adddata ( void )
         }
     }
     if( writing_position == -1 ) {
-        printf( "これ以上追加できません。\n" );
+        printf( "これ以上追加できないっすよー(^◇^;)\n" );
         return 0;
     }
     statusread( &sta );
