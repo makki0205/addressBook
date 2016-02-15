@@ -38,8 +38,9 @@ int adddata ( void )
     SINT index            = 0;
     struct BOOK   data;
     struct STATUS sta;
-    memset( &data, 0, sizeof( sta ));
-    memset( &data, 0, sizeof( data ));          /* 構造体初期化               */
+    memset( &sta, 0, sizeof( sta ));
+    memset( &data, 0, sizeof( data ));
+	statusread(&sta);
     for( index = 0 ; index < 10 ; index++ ) {
         if( sta.flg[index] == 0 ) {
             writing_position = index;
@@ -59,7 +60,7 @@ int adddata ( void )
     bookwrite( &data, writing_position );
     sta.flg[writing_position] = 1;
     statuswrite( &sta );
-
+	printf("%d番目に追加しました\n", writing_position);
     return 0;
 }
 
@@ -195,11 +196,7 @@ int addpost ( struct BOOK *data )
             index++;
         }
         if( key == 10 && index == 7 ) { break; }
-        if( key == 127 && index != 0 ) {
-            index--;
-            baf[index] = '\0';
-            post_print( &baf[0] );
-        }
+
     }
     strcpy( &data->post[0], &baf[0] );
 

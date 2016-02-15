@@ -23,7 +23,7 @@
 int systemset ( void )
 {
     FILE         *fp;
-    struct STATUS sta;                          /*                            */
+    struct STATUS sta;
     memset( &sta, 0, sizeof( sta ) );
     fp = fopen( "addressbook.dat", "r" );
     if( fp == NULL ) {
@@ -206,6 +206,7 @@ int menu ( struct BOOK *data )
         case 5: return 1;
     }
     printf( "何か押してください\n" );
+	rewind(stdin);
     getch( );
 
     return 0;
@@ -233,6 +234,7 @@ int bookread ( struct BOOK *data, int index )
     if( fp == 0 ) {
         return ERR;
     }
+	fseek(fp,index*size,SEEK_SET);
     fread( data, size, 1, fp );
     fclose( fp );
 
@@ -256,7 +258,7 @@ int bookwrite ( struct BOOK *data, int index )
         return ERR;
     }
     size = sizeof( struct BOOK );
-    fp   = fopen( "addressbook.dat", "w" );
+    fp   = fopen( "addressbook.dat", "r+" );
     /* ファイルポインタcheck------------------------------------------------- */
     if( fp == 0 ) {
         return ERR;
