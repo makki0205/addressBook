@@ -29,9 +29,9 @@ int systemset ( void )
     if( fp == NULL ) {
         system( "touch addressbook.dat" );
         fp = fopen( "./status.dat", "w" );
-		if (fp==NULL) {
-			return ERR;
-		}
+        if( fp == NULL ) {
+            return ERR;
+        }
         fwrite( &sta, sizeof( sta ), 1, fp );
         fclose( fp );
     } else {
@@ -53,9 +53,9 @@ int statuswrite ( struct STATUS *status )
 {
     FILE *fp = 0;
     fp = fopen( "./status.dat", "w" );
-	if (fp==NULL) {
-		return ERR;
-	}
+    if( fp == NULL ) {
+        return ERR;
+    }
     fwrite( status, sizeof( struct STATUS ), 1, fp );
     fclose( fp );
 
@@ -74,9 +74,9 @@ int statusread ( struct STATUS *status )
 {
     FILE *fp = 0;
     fp = fopen( "./status.dat", "r" );
-	if (fp==NULL) {
-		return ERR;
-	}
+    if( fp == NULL ) {
+        return ERR;
+    }
     fread( status, sizeof( struct STATUS ), 1, fp );
     fclose( fp );
 
@@ -93,9 +93,9 @@ int statusread ( struct STATUS *status )
 /* -------------------------------------------------------------------------- */
 int select ( int max )
 {
-	SINT check=0;
-    int val = 0;
-    int key = 0;
+    SINT check = 0;
+    int  val   = 0;
+    int  key   = 0;
     max -= 1;
     select_print( val, max );
     while( 1 ) {
@@ -107,7 +107,7 @@ int select ( int max )
                 break;
             case 's':
                 ( val != max ) ? val++ : val = 0;
-				select_print( val, max );
+                select_print( val, max );
                 break;
             case ( 10 ):
 
@@ -163,14 +163,14 @@ int menu_print ( const char *item )
 /* -------------------------------------------------------------------------- */
 int post_print ( char *post )
 {
-	SINT check=0;
-    int index  = 0;
-    int barflg = 0;
-    int size   = 0;
-	/* 引数チェック---------------------------------------------------------- */
-	if (post == NULL){
-		return ERR;
-	}
+    SINT check  = 0;
+    int  index  = 0;
+    int  barflg = 0;
+    int  size   = 0;
+    /* 引数チェック---------------------------------------------------------- */
+    if( post == NULL ) {
+        return ERR;
+    }
     size = strlen( post );
     if( size >= 3 ) {
         barflg = 1;
@@ -214,37 +214,37 @@ int menu ( void )
     selectNo = select( 6 );
     switch( selectNo ) {
         case 0:
-            check=adddata( );
-			if (check==ERR) {
-				return ERR;
-			}
+            check = adddata( );
+            if( check == ERR ) {
+                return ERR;
+            }
             break;
         case 1:
-            check=viewdata( );
-			if (check==ERR) {
-				return ERR;
-			}
+            check = viewdata( );
+            if( check == ERR ) {
+                return ERR;
+            }
             break;
         case 2:
-			check=viewdata( );
-			if (check==ERR) {
-				return ERR;
-			}
-			check=update(check);
-			if (check==ERR) {
-				return ERR;
-			}
-			locate(10,0);
+            check = viewdata( );
+            if( check == ERR ) {
+                return ERR;
+            }
+            check = update( check );
+            if( check == ERR ) {
+                return ERR;
+            }
+            locate( 10, 0 );
             break;
         case 3:
-		check=viewdata();
-		if (check==ERR) {
-			return ERR;
-		}
-		check=deletedata(check);
-		if (check==ERR) {
-			return ERR;
-		}
+            check = viewdata( );
+            if( check == ERR ) {
+                return ERR;
+            }
+            check = deletedata( check );
+            if( check == ERR ) {
+                return ERR;
+            }
             break;
         case 4:
             break;

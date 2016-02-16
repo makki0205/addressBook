@@ -242,7 +242,7 @@ int addpost ( struct BOOK *data )
 	}
     while( 1 ) {
         key = getch( );
-        if( key >= 48 && key <= 57 && index < 7 ) {
+        if(( key >= 48) && (key <= 57) && (index < 7) ) {
             baf[index] = key;
             check=post_print( &baf[0] );
 			if (check==ERR) {
@@ -250,7 +250,7 @@ int addpost ( struct BOOK *data )
 			}
             index++;
         }
-        if( key == 10 && index == 7 ) { break; }
+        if( (key == 10) && (index == 7) ) { break; }
     }
     strcpy( &data->post[0], &baf[0] );
 

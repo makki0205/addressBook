@@ -74,12 +74,12 @@ int index_find ( void )
     cls( );
     printf( "検索 : " );
     scanf( "%d", &index );
-	if (sta.flg[index]==1) {
-		bookread(&data,index);
-		view_print(&data);
-	}else{
-		index =99;
-	}
+    if( sta.flg[index] == 1 ) {
+        bookread( &data, index );
+        view_print( &data );
+    } else {
+        index = 99;
+    }
 
     return index;
 }

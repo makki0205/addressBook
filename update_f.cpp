@@ -27,10 +27,11 @@ int update ( SINT index )
     memset( &data, 0, sizeof( data ) );
     bookread( &data, index );
     SINT updateNo = 0;
-	if (index==99) {
-		printf("項目は存在しません\n" );
-		return ERR;
-	}
+    if( index == 99 ) {
+        printf( "項目は存在しません\n" );
+
+        return ERR;
+    }
     cls( );
     printf( "どの項目を修正しますか？\n" );
     menu_print( "名前" );
@@ -58,9 +59,9 @@ int update ( SINT index )
         default:
             break;
     }
-	bookwrite(&data,index);
-	return OK;
+    bookwrite( &data, index );
 
+    return OK;
 }
 
 /* -------------------------------------------------------------------------- */

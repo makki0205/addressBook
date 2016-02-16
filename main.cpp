@@ -35,14 +35,15 @@
 
 int main ( int argc, char const *argv[] )
 {
-    SINT        iCheck = 0;
+    SINT iCheck = 0;
     systemset( );
     while( iCheck == 0 ) {
         iCheck = menu( );
-		if (iCheck==ERR) {
-			printf("！！！エラーです！！！\n" );
-			return ERR;
-		}
+        if( iCheck == ERR ) {
+            printf( "！！！エラーです！！！\n" );
+
+            return ERR;
+        }
     }
 
     return OK;
