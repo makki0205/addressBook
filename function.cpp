@@ -50,6 +50,9 @@ int statuswrite ( struct STATUS *status )
 {
     FILE *fp = 0;
     fp = fopen( "./status.dat", "w" );
+	if (fp==NULL) {
+		return ERR;
+	}
     fwrite( status, sizeof( struct STATUS ), 1, fp );
     fclose( fp );
 
@@ -119,7 +122,7 @@ void select_print ( int cursor, int max )
     int index = 0;
     for( index = 0 ; index <= max ; index++ ) {
         locate( index + 2, 0 );
-        ( index == cursor ) ? printf( "→" ) : printf( "　" );
+        ( index == cursor ) ? printf( "→" ) : printf( "  " );
     }
     locate( max + 3, 0 );
 }
@@ -138,7 +141,7 @@ int menu_print ( const char *item )
     if( item == NULL ) {
         return ERR;
     }
-    printf( "　%s\n", item );
+    printf( "  %s\n", item );
 
     return OK;
 }
@@ -209,6 +212,9 @@ int menu ( struct BOOK *data )
             check=viewdata( );
             break;
         case 2:
+			check=viewdata( );
+			check=update(check);
+			locate(10,0);
             break;
         case 3:
             break;

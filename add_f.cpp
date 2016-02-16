@@ -87,9 +87,9 @@ int record_print ( struct BOOK *data )
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addname													   */
 /* 機能名		: 名前を追加													  */
-/* 機能概要	   : を追加しcheckを行う　										  */
+/* 機能概要	   : を追加しcheckを行う  										   */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 戻り値		: int			   : OK				: 成功    				 */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addname ( struct BOOK *data )
@@ -104,7 +104,9 @@ int addname ( struct BOOK *data )
     while( 1 ) {
         locate( 0, 0 );
         record_print( data );
-        locate( 0, 12 );
+		locate( 0, 12 );
+		printf("                                  " );
+		locate( 0, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 30 ) {
@@ -124,7 +126,7 @@ int addname ( struct BOOK *data )
 /* 機能名		: カナを追加する                                               */
 /* 機能概要	   : カナを追加しcheckを行う                                      */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 戻り値		: int			   : OK				: 成功    				 */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addkana ( struct BOOK *data )
@@ -141,7 +143,9 @@ int addkana ( struct BOOK *data )
     while( 1 ) {
         locate( 0, 0 );
         record_print( data );
-        locate( 2, 12 );
+		locate( 2, 12 );
+		printf("                                  " );
+		locate( 2, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 30 ) {
@@ -174,10 +178,10 @@ int addkana ( struct BOOK *data )
 
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addpost													   */
-/* 機能名		: 郵便番号を追加　											   */
-/* 機能概要	   : 郵便番号を追加しcheckを行								 　 */
+/* 機能名		: 郵便番号を追加  											    */
+/* 機能概要	   : 郵便番号を追加しcheckを行								    */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 戻り値		: int			   : OK				: 成功    				 */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addpost ( struct BOOK *data )
@@ -208,7 +212,7 @@ int addpost ( struct BOOK *data )
 /* 機能名		: 住所を追加													  */
 /* 機能概要	   : 住所を追加しcheckを行う										 */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 戻り値		: int			   : OK				: 成功    				 */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addaddress ( struct BOOK *data )
@@ -223,7 +227,9 @@ int addaddress ( struct BOOK *data )
     while( 1 ) {
         locate( 0, 0 );
         record_print( data );
-        locate( 4, 12 );
+		locate( 4, 12 );
+		printf("                                  " );
+		locate( 4, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 80 ) {
@@ -243,7 +249,7 @@ int addaddress ( struct BOOK *data )
 /* 機能名		: 電話番号を追加											    */
 /* 機能概要	   : 電話番号を追加しcheckを行う                                  */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功　　				   */
+/* 戻り値		: int			   : OK				: 成功    				 */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addnumber ( struct BOOK *data )
@@ -258,7 +264,9 @@ int addnumber ( struct BOOK *data )
     while( 1 ) {
         locate( 0, 0 );
         record_print( data );
-        locate( 5, 12 );
+		locate( 5, 12 );
+		printf("                                  " );
+		locate( 5, 12 );s
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 18 ) {
