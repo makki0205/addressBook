@@ -35,14 +35,17 @@
 
 int main ( int argc, char const *argv[] )
 {
-    SINT        iCheck = 0; 
-    struct BOOK data;
+    SINT        iCheck = 0;
     systemset( );
     while( iCheck == 0 ) {
-        iCheck = menu( &data );
+        iCheck = menu( );
+		if (iCheck==ERR) {
+			printf("！！！エラーです！！！\n" );
+			return ERR;
+		}
     }
 
-    return 0;
+    return OK;
 }
 
 /* -------------------------------------------------------------------------- */

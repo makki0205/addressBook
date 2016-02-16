@@ -22,14 +22,25 @@
 /*             : SINT			  : ERR            : 異常終了				  */
 /* 作成日		: 葛巻大樹							2016/02/16				   */
 /* -------------------------------------------------------------------------- */
-int delete (SINT index) {
+int deletedata (SINT index) {
+	SINT check=0;
     struct STATUS sta;
     memset( &sta, 0, sizeof( sta ) );
-    statusread( &sta );
+    check=statusread( &sta );
+	if (check==ERR) {
+		return ERR;
+	}
     if( index == 99 && sta.flg[index] == 0 ) {
-        printf( "データは存在しません\n", );
-    }
-
+        printf( "データは存在しません\n" );
+    }else{
+		printf("%d番目のデータを削除しました\n",index );
+		sta.flg[index]=0;
+		check=statuswrite(&sta);
+		if (check==ERR) {
+			return ERR;
+		}
+	}
+	return OK;
 }
 /* -------------------------------------------------------------------------- */
 /*              Copyright HAL College of Technology & Design				  */

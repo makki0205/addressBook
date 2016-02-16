@@ -34,13 +34,17 @@
 /* -------------------------------------------------------------------------- */
 int adddata ( void )
 {
-    SINT writing_position = -1;
-    SINT index            = 0;
+    SINT          check            = 0;
+    SINT          writing_position = -1;
+    SINT          index            = 0;
     struct BOOK   data;
     struct STATUS sta;
     memset( &sta, 0, sizeof( sta ));
     memset( &data, 0, sizeof( data ));
-	statusread(&sta);
+    check = statusread( &sta );
+    if( check == ERR ) {
+        return ERR;
+    }
     for( index = 0 ; index < 10 ; index++ ) {
         if( sta.flg[index] == 0 ) {
             writing_position = index;
@@ -49,18 +53,44 @@ int adddata ( void )
     }
     if( writing_position == -1 ) {
         printf( "これ以上追加できません。\n" );
+
         return 0;
     }
-    statusread( &sta );
-    addname( &data );
-    addkana( &data );
-    addpost( &data );
-    addaddress( &data );
-    addnumber( &data );
-    bookwrite( &data, writing_position );
+    check = statusread( &sta );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = addname( &data );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = addkana( &data );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = addpost( &data );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = addaddress( &data );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = addnumber( &data );
+    if( check == ERR ) {
+        return ERR;
+    }
+    check = bookwrite( &data, writing_position );
+    if( check == ERR ) {
+        return ERR;
+    }
     sta.flg[writing_position] = 1;
-    statuswrite( &sta );
-	printf("%d番目に追加しました\n", writing_position);
+    check                     = statuswrite( &sta );
+    if( check == ERR ) {
+        return ERR;
+    }
+    printf( "%d番目に追加しました\n", writing_position );
+
     return 0;
 }
 
@@ -74,10 +104,14 @@ int adddata ( void )
 /* -------------------------------------------------------------------------- */
 int record_print ( struct BOOK *data )
 {
+    SINT check = 0;
     printf( "名前     : %s\n", &data->name[0] );
     printf( "カナ     : %s\n", &data->kana[0] );
     printf( "郵便番号 : " );
-    post_print( &data->post[0] );
+    check = post_print( &data->post[0] );
+    if( check == ERR ) {
+        return ERR;
+    }
     printf( "\n住所     : %s\n", &data->address[0] );
     printf( "電話番号 : %s\n", &data->number[0] );
 
@@ -87,13 +121,14 @@ int record_print ( struct BOOK *data )
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addname													   */
 /* 機能名		: 名前を追加													  */
-/* 機能概要	   : を追加しcheckを行う  										   */
+/* 機能概要	   : を追加しcheckを行う                                          */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功    				 */
+/* 戻り値		: int			   : OK				: 成功                     */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addname ( struct BOOK *data )
 {
+    SINT check = 0;
     char baf[256];
     int  size = 0;
     /* 引数チェック---------------------------------------------------------- */
@@ -103,10 +138,13 @@ int addname ( struct BOOK *data )
     cls( );
     while( 1 ) {
         locate( 0, 0 );
-        record_print( data );
-		locate( 0, 12 );
-		printf("                                  " );
-		locate( 0, 12 );
+        check = record_print( data );
+        if( check == ERR ) {
+            return ERR;
+        }
+        locate( 0, 12 );
+        printf( "                                  " );
+        locate( 0, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 30 ) {
@@ -126,15 +164,16 @@ int addname ( struct BOOK *data )
 /* 機能名		: カナを追加する                                               */
 /* 機能概要	   : カナを追加しcheckを行う                                      */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功    				 */
+/* 戻り値		: int			   : OK				: 成功                     */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addkana ( struct BOOK *data )
 {
     char baf[256];
-    int  size  = 0;
-    int  check = 0;
-    int  index = 0;
+    int  size        = 0;
+    int  check       = 0;
+    int  returncheck = 0;
+    int  index       = 0;
     /* 引数チェック---------------------------------------------------------- */
     if( data == NULL ) {
         return ERR;
@@ -142,10 +181,13 @@ int addkana ( struct BOOK *data )
     cls( );
     while( 1 ) {
         locate( 0, 0 );
-        record_print( data );
-		locate( 2, 12 );
-		printf("                                  " );
-		locate( 2, 12 );
+        returncheck = record_print( data );
+        if( returncheck == ERR ) {
+            return ERR;
+        }
+        locate( 2, 12 );
+        printf( "                                  " );
+        locate( 2, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 30 ) {
@@ -178,29 +220,35 @@ int addkana ( struct BOOK *data )
 
 /* -------------------------------------------------------------------------- */
 /* 関数名		: addpost													   */
-/* 機能名		: 郵便番号を追加  											    */
+/* 機能名		: 郵便番号を追加                                               */
 /* 機能概要	   : 郵便番号を追加しcheckを行								    */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功    				 */
+/* 戻り値		: int			   : OK				: 成功                     */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addpost ( struct BOOK *data )
 {
-    int  key = 0;
+    SINT check = 0;
+    int  key   = 0;
     char baf[8];
     memset( &baf[0], 0, sizeof( baf ));
     int index = 0;
     cls( );
-    record_print( data );
+    check=record_print( data );
+	if (check==ERR) {
+		return ERR;
+	}
     while( 1 ) {
         key = getch( );
         if( key >= 48 && key <= 57 && index < 7 ) {
             baf[index] = key;
-            post_print( &baf[0] );
+            check=post_print( &baf[0] );
+			if (check==ERR) {
+				return ERR;
+			}
             index++;
         }
         if( key == 10 && index == 7 ) { break; }
-
     }
     strcpy( &data->post[0], &baf[0] );
 
@@ -212,11 +260,12 @@ int addpost ( struct BOOK *data )
 /* 機能名		: 住所を追加													  */
 /* 機能概要	   : 住所を追加しcheckを行う										 */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功    				 */
+/* 戻り値		: int			   : OK				: 成功                     */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addaddress ( struct BOOK *data )
 {
+	SINT check=0;
     char baf[256];
     int  size = 0;
     /* 引数チェック---------------------------------------------------------- */
@@ -226,10 +275,13 @@ int addaddress ( struct BOOK *data )
     cls( );
     while( 1 ) {
         locate( 0, 0 );
-        record_print( data );
-		locate( 4, 12 );
-		printf("                                  " );
-		locate( 4, 12 );
+        check=record_print( data );
+		if (check==ERR) {
+			return ERR;
+		}
+        locate( 4, 12 );
+        printf( "                                  " );
+        locate( 4, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 80 ) {
@@ -249,11 +301,12 @@ int addaddress ( struct BOOK *data )
 /* 機能名		: 電話番号を追加											    */
 /* 機能概要	   : 電話番号を追加しcheckを行う                                  */
 /* 引数		 : structBOOK*		: data			 : 一レコード分の情報       */
-/* 戻り値		: int			   : OK				: 成功    				 */
+/* 戻り値		: int			   : OK				: 成功                     */
 /* 作成日		: 葛巻大樹							2016/02/05				   */
 /* -------------------------------------------------------------------------- */
 int addnumber ( struct BOOK *data )
 {
+	SINT check=0;
     char baf[256];
     int  size = 0;
     /* 引数チェック---------------------------------------------------------- */
@@ -263,10 +316,13 @@ int addnumber ( struct BOOK *data )
     cls( );
     while( 1 ) {
         locate( 0, 0 );
-        record_print( data );
-		locate( 5, 12 );
-		printf("                                  " );
-		locate( 5, 12 );s
+        check=record_print( data );
+		if (check==ERR) {
+			return ERR;
+		}
+        locate( 5, 12 );
+        printf( "                                  " );
+        locate( 5, 12 );
         gets( &baf[0] );
         size = strlen( &baf[0] );
         if( size < 18 ) {
