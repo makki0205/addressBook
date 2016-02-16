@@ -131,6 +131,7 @@ int addname ( struct BOOK *data )
     SINT check = 0;
     char baf[256];
     int  size = 0;
+	memset( &baf[0], 0, sizeof( baf ) );
     /* 引数チェック---------------------------------------------------------- */
     if( data == NULL ) {
         return ERR;
@@ -169,11 +170,12 @@ int addname ( struct BOOK *data )
 /* -------------------------------------------------------------------------- */
 int addkana ( struct BOOK *data )
 {
-    char baf[256];
     int  size        = 0;
     int  check       = 0;
     int  returncheck = 0;
     int  index       = 0;
+	char baf[256];
+	memset( &baf[0], 0, sizeof( baf ) );
     /* 引数チェック---------------------------------------------------------- */
     if( data == NULL ) {
         return ERR;
@@ -266,8 +268,9 @@ int addpost ( struct BOOK *data )
 int addaddress ( struct BOOK *data )
 {
 	SINT check=0;
-    char baf[256];
     int  size = 0;
+	char baf[256];
+	memset( &baf[0], 0, sizeof( baf ) );
     /* 引数チェック---------------------------------------------------------- */
     if( data == NULL ) {
         return ERR;
@@ -307,8 +310,9 @@ int addaddress ( struct BOOK *data )
 int addnumber ( struct BOOK *data )
 {
 	SINT check=0;
-    char baf[256];
     int  size = 0;
+	char baf[256];
+	memset( &baf[0], 0, sizeof( baf ) );
     /* 引数チェック---------------------------------------------------------- */
     if( data == NULL ) {
         return ERR;
