@@ -191,6 +191,7 @@ int menu ( struct BOOK *data )
         return ERR;
     }
     int selectNo = 0;
+    int check    = 0;
     cls( );
     printf( "--アドレス帳--\n" );
     menu_print( "アドレス帳新規追加" );
@@ -201,12 +202,22 @@ int menu ( struct BOOK *data )
     menu_print( "アプリケーション終了" );
     selectNo = select( 6 );
     switch( selectNo ) {
-        case 0: adddata( ); break;
-        case 1: viewdata( ); break;
+        case 0:
+            adddata( );
+            break;
+        case 1:
+            check=viewdata( );
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
         case 5: return 1;
     }
     printf( "何か押してください\n" );
-	rewind(stdin);
+    rewind( stdin );
     getch( );
 
     return 0;
@@ -234,7 +245,7 @@ int bookread ( struct BOOK *data, int index )
     if( fp == 0 ) {
         return ERR;
     }
-	fseek(fp,index*size,SEEK_SET);
+    fseek( fp, index * size, SEEK_SET );
     fread( data, size, 1, fp );
     fclose( fp );
 

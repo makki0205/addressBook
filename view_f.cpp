@@ -26,28 +26,60 @@ int viewdata ( void )
     SINT index    = 0;
     cls( );
     printf( "--何で検索しますか？\n" );
+    menu_print( "番後" );
     menu_print( "カナ" );
     menu_print( "郵便番号" );
-    menu_print( "全表示" );
     selectNo = select( 3 );
     switch( selectNo ) {
         case 0:
-            index = kana_find( );
+            index = index_find( );
             if( index == -1 ) {
                 return ERR;
             }
             break;
         case 1:
-            index = post_find( );
+            index = kana_find( );
             if( index == -1 ) {
                 return ERR;
             }
             break;
         case 2:
+            index = post_find( );
+            if( index == -1 ) {
+                return ERR;
+            }
             break;
         default:
             break;
     }
+
+    return index;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 関数名		: index_find												   */
+/* 機能名		: 番号検索													   */
+/* 機能概要	   : 番号こ検索を行う											  */
+/* 戻り値		: int			   : index			: 番号を返す			      */
+/* 作成日		: 葛巻大樹							2016/02/16				   */
+/* -------------------------------------------------------------------------- */
+int index_find ( void )
+{
+    SINT          index;
+    struct BOOK   data;
+    struct STATUS sta;
+    memset( &data, 0, sizeof( data ) );
+    memset( &sta, 0, sizeof( sta ) );
+    statusread( &sta );
+    cls( );
+    printf( "検索 : " );
+    scanf( "%d", &index );
+	if (sta.flg[index]==1) {
+		bookread(&data,index);
+		view_print(&data);
+	}else{
+		index =99;
+	}
 
     return index;
 }
@@ -106,10 +138,10 @@ int kana_find ( void )
     }
     if( flg == 0 ) {
         printf( "見つかりませんでした\n" );
-		return 99;
+
+        return 99;
     } else {
         view_print( &data[index] );
-        printf( "%d\n", index );
     }
 
     return index;
@@ -144,11 +176,12 @@ int post_find ( void )
             view_post_print( &buf[0] );
         }
         if( key == 10 ) {
-			findindex=view_post_print(&buf[0]);
+            findindex = view_post_print( &buf[0] );
             break;
         }
     }
-	return findindex;
+
+    return findindex;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -179,9 +212,9 @@ int view_post_print ( SCHR *buf )
                 bookread( &data, index );
                 check = strncmp( buf, &data.post[0], strlen( buf ) );
                 if( check == 0 ) {
-					if (findindex==99) {
-						findindex=index;
-					}
+                    if( findindex == 99 ) {
+                        findindex = index;
+                    }
                     printf( "\n" );
                     view_print( &data );
                 }
@@ -196,7 +229,8 @@ int view_post_print ( SCHR *buf )
             }
         }
     }
-	return findindex;
+
+    return findindex;
 }
 
 /* -------------------------------------------------------------------------- */
