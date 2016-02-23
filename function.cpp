@@ -252,6 +252,10 @@ int menu ( void )
             }
             break;
         case 4:
+			check=sortdata();
+			if (check==ERR) {
+				return ERR;
+			}
             break;
         case 5: return 1;
     }
